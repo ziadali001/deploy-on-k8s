@@ -47,17 +47,12 @@ pipeline {
             }
             steps {
                 script {
-                    // withKubeConfig([credentialsId: 'k8s-credentials', serverUrl: 'https://1CEE5F8B98ED13A1B9D903E2848038F6.gr7.us-east-1.eks.amazonaws.com']) {
-                    //     withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    //         sh "kubectl create secret docker-registry my-registry-key --docker-server=docker.io --docker-username=$USER --docker-password=$PASS"
-                    //     }
-                        echo 'deploying docker image...'
-                        sh 'envsubst < kubernetes/deployment.yaml | kubectl apply -f -'
-                        sh 'envsubst < kubernetes/service.yaml | kubectl apply -f -'
-                    }
+                    echo 'deploying docker image...'
+                    sh 'envsubst < kubernetes/deployment.yaml | kubectl apply -f -'
+                    sh 'envsubst < kubernetes/service.yaml | kubectl apply -f -'
                 }
             }
-        }
+        }    
         stage('commit version update') {
             steps {
                 script {
